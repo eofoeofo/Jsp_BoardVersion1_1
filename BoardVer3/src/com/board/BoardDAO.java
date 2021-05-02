@@ -93,4 +93,23 @@ public class BoardDAO {
 		}
 		return null;
 	}
+	public static int deleteBoard(int iboard) {
+		BoardVO3 vo = new BoardVO3();
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		String sql = " DELETE FROM t_board WHERE iboard = ? ";
+		
+		try { 
+			con = DBUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1,vo.getIboard());
+			return ps.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtils.close(con, ps);
+		}
+		return 0;
+	}
 }

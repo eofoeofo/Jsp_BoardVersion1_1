@@ -18,6 +18,7 @@ public class BoardListServlet3 extends HttpServlet {
 		request.setAttribute("list", list);
 		request.getRequestDispatcher("WEB-INF/view/list3.jsp")
 		.forward(request, response);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

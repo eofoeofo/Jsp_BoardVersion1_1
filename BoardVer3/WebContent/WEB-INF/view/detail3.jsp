@@ -16,7 +16,7 @@
 	</div>
 	<div>
 		<form action="/del3" method="post">
-			<input type="hidden" name="no" value="${param.iboard}">
+			<input type="hidden" name="iboard" value="${param.iboard}">
 			<input type="submit" value="삭제">
 		</form>
 	</div>
