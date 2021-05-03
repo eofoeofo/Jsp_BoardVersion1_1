@@ -34,7 +34,7 @@ public class BoardDAO {
 		ResultSet rs = null;
 		
 		String sql = " SELECT iboard,title,regdt "
-				   + " FROM t_board ";
+				   + " FROM t_board ORDER BY iboard DESC ";
 		try {
 			con = DBUtils.getCon();
 			ps = con.prepareStatement(sql);
@@ -103,9 +103,29 @@ public class BoardDAO {
 		try { 
 			con = DBUtils.getCon();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1,vo.getIboard());
+			ps.setInt(1,iboard);
 			return ps.executeUpdate();
 		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtils.close(con, ps);
+		}
+		return 0;
+	}
+	public static int updataBoard(BoardVO3 vo) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		String sql = " UPDATE t_board SET title = ? "
+				   + " , ctnt = ? WHERE iboard = ? ";
+		try {
+			con = DBUtils.getCon();
+			ps = con.prepareStatement(sql);
+			ps.setString(1,vo.getTitle());
+			ps.setString(2,vo.getCtnt());
+			ps.setInt(3,vo.getIboard());
+			return ps.executeUpdate();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			DBUtils.close(con, ps);
