@@ -6,8 +6,21 @@
 <head>
 <meta charset="UTF-8">
 <title>디테일</title>
+<script defer src="/res/js/boardDetail.js"></script>
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+	.hidden{ display: none; }
+	.fa-heart{ color: red; }
+</style>
 </head>
 <body>
+	<c:if test="${data.isFav eq 0}">
+		<a href="fav?iboard=${param.iboard}&fav=1"><i class="far fa-heart"></i></a>
+	</c:if>
+	<c:if test="${data.isFav eq 1}">
+		<a href="fav?iboard=${param.iboard}&fav=0"><i class="fas fa-heart"></i></a>
+	</c:if>
 	<div><a href="list">리스트</a></div>
 	<c:if test="${loginUser.iuser == data.iuser}">
 	<div>
@@ -36,6 +49,15 @@
 				<input type="submit" value="댓글작성">
 			</div>
 		</form>
+		<form id="updFrm" action="cmt" method="post" class="hidden">
+			<input type="hidden" name="iboard" value="${data.iboard}">
+			<input type="hidden" name="icmt" value="0">
+			<div>
+				<textarea name="cmt" placeholder="댓글내용"></textarea>
+				<input type="submit" value="댓글수정">
+				<input type="button" value="수정취소" onclick="showInsFrm();">
+			</div>
+		</form>
 		<div>
 			<table>
 				<tr>
@@ -45,12 +67,18 @@
 					<th>비고</th>
 				</tr>
 				<c:forEach items="${list}" var="item">
-				<div>${item.cmt}</div>
 				<tr>
 					<td>${item.cmt}</td>
 					<td>${item.unm}</td>
 					<td>${item.regdate}</td>
-					<td>${item.unm}</td>
+					<td>
+						<c:if test="${loginUser.iuser == item.iuser}">
+							<input type="button" value="수정"
+							onclick="updCmt(${item.icmt},'${item.cmt}')">
+							<input type="button" value="삭제"
+							onclick="delCmt(${data.iboard},${item.icmt})">
+						</c:if>
+					</td>
 				</tr>
 				</c:forEach>
 			</table>
