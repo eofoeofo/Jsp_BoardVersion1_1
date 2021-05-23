@@ -2,6 +2,9 @@ package board.sanghyuk.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import board.sanghyuk.utils.DBUtils;
 
@@ -27,4 +30,35 @@ public class UserDAO {
 		}
 		return 0;
 	}
+	public static int loginUser(UserVO param) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = " SELECT * FROM t_user WHERE uid = ? ";
+		
+		try {
+			con = DBUtils.getCon();
+			ps  = con.prepareStatement(sql);
+			ps.setString(1, param.getUid());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				String dbpw = rs.getString("upw");
+				String num = rs.getString("unm");
+				int iuser = rs.getInt("iuser");
+				if(BCrypt.checkpw(param.getUpw(), dbpw)) {
+					param.setIuser(iuser);
+					param.setUnm(num);
+					return 1;
+				} else {
+					return 3;
+				}
+			} else {
+				return 2;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtils.close(con, ps, rs);
+		} return 0;
+	} 
 }
