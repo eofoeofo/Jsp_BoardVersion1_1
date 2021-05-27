@@ -95,7 +95,7 @@ public class BoardDAO {
 				vo.setIboard(rs.getInt(1));
 				vo.setTitle(rs.getString("title"));
 				vo.setRegdt(rs.getString(3));
-				vo.setWriteNm(rs.getString(4));
+				vo.setWriterNm(rs.getString(4));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,5 +103,41 @@ public class BoardDAO {
 			DBUtils.close(con, ps, rs);
 		}
 		return list;
+	}
+	public static BoardDomain selDetail(BoardDTO param) {
+		BoardDomain result = null;
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = " SELECT 	A.ctnt,  "
+				   + "		  	A.title, "
+				   + " 		  	A.regdt, "
+				   + "		    A.iuser, "
+				   + "			B.unm AS writerNm "
+				   + " FROM t_board A " 
+				   + " INNER JOIN t_user B "
+				   + " ON A.iuser = B.iuser "
+				   + " WHERE A.iboard = ? ";
+		try {
+			con = DBUtils.getCon();
+			ps  = con.prepareStatement(sql);
+			ps.setInt(1, param.getIboard());
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = new BoardDomain();
+				result.setIboard(param.getIboard());
+				result.setCtnt(rs.getString("ctnt"));
+				result.setTitle(rs.getString("title"));
+				result.setRegdt(rs.getString("regdt"));
+				result.setIuser(rs.getInt("iuser"));
+				result.setWriterNm(rs.getString("writerNm"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtils.close(con, ps, rs);
+		}
+		return result;
 	}
 }

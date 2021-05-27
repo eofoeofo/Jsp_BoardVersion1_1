@@ -1,13 +1,13 @@
 package com.koreait.board5.board;
 
 public class BoardDomain extends BoardEntity {
-	private String writeNm;
+	private String writerNm;
 
-	public String getWriteNm() {
-		return writeNm;
+	public String getWriterNm() {
+		return writerNm;
 	}
 
-	public void setWriteNm(String writeNm) {
-		this.writeNm = writeNm;
+	public void setWriterNm(String writerNm) {
+		this.writerNm = writerNm;
 	}
 }

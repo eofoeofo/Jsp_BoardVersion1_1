@@ -26,10 +26,10 @@
 		<td>
 			<c:choose>
 				<c:when test="${param.searchType eq 4}">
-					${item.writeNm.replace(param.searchText, '<mark>' += param.searchText += '</mark>')}
+					${item.writerNm.replace(param.searchText, '<mark>' += param.searchText += '</mark>')}
 				</c:when>
 				<c:otherwise>
-					${item.writeNm}
+					${item.writerNm}
 				</c:otherwise>
 			</c:choose>
 		</td>
